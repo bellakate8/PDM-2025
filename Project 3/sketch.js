@@ -4,7 +4,7 @@ let blueclown;
 let character;
 
 function preload() {
-  cyclops = loadImage("media/cyclops.png");
+  cyclops = loadImage("cyclops.png");
 }
 
 function setup() {
