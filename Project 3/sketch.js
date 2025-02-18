@@ -2,9 +2,13 @@ let cyclops;
 let greensprite;
 let blueclown;
 let character;
+let character2;
+let character3;
 
 function preload() {
   cyclops = loadImage("cyclops.png");
+  greensprite = loadImage ("greensprite.png");
+  blueclown = loadImage ("blueclown.png");
 }
 
 function setup() {
@@ -13,41 +17,47 @@ function setup() {
 
   character = new Character(random(80, width-80),random(80, height-80));
 
-  character.addAnimation("right", new SpriteAnimation(cyclops, 7, 5, 6));
-  character.addAnimation("left", new SpriteAnimation(cyclops, 7, 5, 6));
+  character.addAnimation("right", new SpriteAnimation(cyclops, 1, 0, 8,true));
+  character.addAnimation("left", new SpriteAnimation(cyclops, 1, 0, 8, ));
   
   character.addAnimation("stand", new SpriteAnimation(cyclops, 0, 0, 1));
   character.currentAnimation = "stand";
 
-  character = new Character(random(80, width-80),random(80, height-80));
+  character2 = new Character(random(80, width-80),random(80, height-80));
 
-  character.addAnimation("right", new SpriteAnimation(greensprite, 7, 5, 6));
-  character.addAnimation("left", new SpriteAnimation(greensprite, 7, 5, 6));
+  character2.addAnimation("right", new SpriteAnimation(greensprite, 1, 0 , 8,true));
+  character2.addAnimation("left", new SpriteAnimation(greensprite, 1, 0, 8, ));
   
-  character.addAnimation("stand", new SpriteAnimation(greensprite, 0, 0, 1));
-  character.currentAnimation = "stand";
+  character2.addAnimation("stand", new SpriteAnimation(greensprite, 0, 0, 1));
+  character2.currentAnimation = "stand";
 
-  character = new Character(random(80, width-80),random(80, height-80));
+  character3 = new Character(random(80, width-80),random(80, height-80));
 
-  character.addAnimation("right", new SpriteAnimation(blueclown, 7, 5, 6));
-  character.addAnimation("left", new SpriteAnimation(blueclown, 7, 5, 6));
+  character3.addAnimation("right", new SpriteAnimation(blueclown, 1, 0, 8,true));
+  character3.addAnimation("left", new SpriteAnimation(blueclown, 1, 0, 8, ));
   
-  character.addAnimation("stand", new SpriteAnimation(blueclown, 0, 0, 1));
-  character.currentAnimation = "stand";
+  character3.addAnimation("stand", new SpriteAnimation(blueclown, 0, 0, 1));
+  character3.currentAnimation = "stand";
 }
 
 function draw() {
   background(220);
 
   character.draw();
+  character2.draw();
+  character3.draw();
 }
 
 function keyPressed() {
   character.keyPressed();
+  character2.keyPressed();
+  character3.keyPressed();
 }
 
 function keyReleased() {
   character.keyReleased();
+  character2.keyReleased();
+  character3.keyReleased();
 }
 
 class Character {
@@ -82,30 +92,39 @@ class Character {
 
   keyPressed() {
     switch(keyCode) {
-      case UP_ARROW:
-        this.currentAnimation = "right";
-        break;
-      case DOWN_ARROW:
+      case RIGHT_ARROW:
         this.currentAnimation = "left";
+        break;
+      case LEFT_ARROW:
+        this.currentAnimation = "right";
         break;
     }
   }
   
   keyReleased() {
     this.currentAnimation = "stand";
-    this.animations[this.currentAnimation].flipped = true;
+    switch(keyCode) {
+      case RIGHT_ARROW:
+        this.animations[this.currentAnimation].flipped = false;
+        
+        break;
+
+        case LEFT_ARROW:
+        this.animations[this.currentAnimation].flipped = true;
+       
+        break;
   }
 }
-
+}
 class SpriteAnimation {
-  constructor(spritesheet, startU, startV, duration) {
+  constructor(spritesheet, startU, startV, duration, flipped=false ) {
     this.spritesheet = spritesheet;
     this.u = startU;
     this.v = startV;
     this.duration = duration;
     this.startU = startU;
     this.frameCount = 0;
-    this.flipped = false;
+    this.flipped = flipped;
   }
 
   draw() {
